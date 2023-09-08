@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="./fav.webp" />
+		<meta name="viewport" content="width=device-width" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      ::-webkit-scrollbar {
+        width: 10px;
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #ffffff;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgb(191, 183, 146);
+        border-radius: 40px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgb(211, 155, 201);
+      }
+
+      body {
+        background-image: url('./background.jpg');
+        background-position: center center;
+        background-size: cover;
+      }
+    </style>
+		
+		<link rel="modulepreload" href="./_app/immutable/entry/start.acbeed52.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.d25140a4.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.f22737fc.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.f85eb8d5.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.d123a01e.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.1ec092db.js">
+	</head>
+	<body>
+		<div style="display: contents">
+			<script>
+				{
+					__sveltekit_c9mblk = {
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("./_app/immutable/entry/start.acbeed52.js"),
+						import("./_app/immutable/entry/app.d123a01e.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>
