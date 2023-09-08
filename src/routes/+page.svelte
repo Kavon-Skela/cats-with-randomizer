@@ -11,7 +11,7 @@
   import ilya from '../assets/images/illia_tarasiuk_1693859547118.jpeg';
   import Button from '../components/Buttons/Button.svelte';
   import { isLoggedIn, isModalDesireOpened, isModalLoginOpened, currentUser, isSuccessModalOpened } from '../stores/stores';
-  import { onMount } from 'svelte';
+  import { afterUpdate, onMount } from 'svelte';
   import LoginDesireModal from '../components/Modals/loginDesire/loginDesireModal.svelte';
   import LoginModal from '../components/Modals/login/loginModal.svelte';
   import Success from '../components/Modals/success/success.svelte';
@@ -23,8 +23,7 @@
   import confusedCat from '../assets/images/cats/confused.jpg';
   import sleepingCat from '../assets/images/cats/sleeping.jpg';
   import cuteCat from '../assets/images/cats/cute.webp';
-  import { goto } from '$app/navigation';
-  import { blur, fade, slide } from 'svelte/transition';
+  import { slide } from 'svelte/transition';
 
   const people = [
     {
@@ -85,24 +84,44 @@
   $: firstPerson = people.find(item => item.id === firstSelected);
   $: secondPerson = people.find(item => item.id === secondSelected);
 
-  const latitudeRange = [50.3861, 50.5900];
-  const longitudeRange = [30.2399, 30.7180];
+  $: isItDarnica = false;
+
+  const latitudeRangeKyiv = [50.3861, 50.5900];
+  const longitudeRangeKyiv = [30.2399, 30.7180];
+
+  const latitudeRangeDarnica = [50.3989, 50.4189];
+  const longitudeRangeDarnica = [30.6291, 30.6585];
 
   const rollTheLocation = () => {
-    const randomLatitude = Math.random() * (latitudeRange[1] - latitudeRange[0]) + latitudeRange[0];
-    const randomLongitude = Math.random() * (longitudeRange[1] - longitudeRange[0]) + longitudeRange[0];
-    return [randomLatitude, randomLongitude];
+    if (isItDarnica) {
+      const randomLatitude = Math.random() * (latitudeRangeDarnica[1] - latitudeRangeDarnica[0]) + latitudeRangeDarnica[0];
+      const randomLongitude = Math.random() * (longitudeRangeDarnica[1] - longitudeRangeDarnica[0]) + longitudeRangeDarnica[0];
+      return [randomLatitude, randomLongitude];
+    }
+
+    if (!isItDarnica) {
+      const randomLatitude = Math.random() * (latitudeRangeKyiv[1] - latitudeRangeKyiv[0]) + latitudeRangeKyiv[0];
+      const randomLongitude = Math.random() * (longitudeRangeKyiv[1] - longitudeRangeKyiv[0]) + longitudeRangeKyiv[0];
+      return [randomLatitude, randomLongitude];
+    }
+
   };
 
   const handleClick = (event) => {
     event.preventDefault();
 
-    const randomCoords = rollTheLocation(latitudeRange, longitudeRange);
+    let randomCoords;
+
+    if (isItDarnica) {
+      randomCoords = rollTheLocation(latitudeRangeDarnica, longitudeRangeDarnica);
+    } else if (!isItDarnica) {
+      randomCoords = rollTheLocation(latitudeRangeKyiv, longitudeRangeKyiv);
+    }
 
     const googleMapsLink = `https://www.google.com/maps?q=${randomCoords[0]},${randomCoords[1]}`;
 
     window.open(googleMapsLink, '_blank');
-  }
+  };
 
   onMount(() => {
     if (window.localStorage.getItem('user') === 'nata') {
@@ -116,33 +135,33 @@
     if (window.localStorage.getItem('user') === 'false') {
       $isModalDesireOpened = true;
     }
-  })
+  });
 </script>
 
 <header class="header">
-  {#if !$isLoggedIn}
-  <div class="buttons__wrapper">
-    <Button text="Котозуватись" action={() => $isModalLoginOpened = !$isModalLoginOpened} />
-  </div>
-  {/if}
-  {#if $isLoggedIn}
-  <div class="auth_wrapper">
-    <Button text="Декотозуватись" action={() => {
-      $isLoggedIn = !$isLoggedIn
-      $currentUser = false;
-      window.localStorage.setItem('user', false)
-    }}/>
-
-    <div class="curr_person">
-      <div class="curr_person__img_container">
-        <img class="curr_person__photo" src={natali} alt="current user name">
-      </div>
-      <span class="curr_person__name">Наталі</span>
+  <div class="header__wrapper">
+    {#if !$isLoggedIn}
+    <div class="buttons__wrapper">
+      <Button text="Котозуватись" action={() => $isModalLoginOpened = !$isModalLoginOpened} />
     </div>
+    {/if}
+    {#if $isLoggedIn}
+    <div class="auth_wrapper">
+      <Button text="Декотозуватись" action={() => {
+        $isLoggedIn = !$isLoggedIn
+        $currentUser = false;
+        window.localStorage.setItem('user', false)
+      }}/>
+  
+      <div class="curr_person">
+        <div class="curr_person__img_container">
+          <img class="curr_person__photo" src={natali} alt="current user name">
+        </div>
+        <span class="curr_person__name">Наталі</span>
+      </div>
+    </div>
+    {/if}
   </div>
-  {/if}
-
-
 </header>
 
 <main class="main">
@@ -230,6 +249,14 @@
   </section>
 
   <section class="roll">
+    <div class="roll__button__switcher">
+      Весь Київ
+      <label class="switch">
+        <input type="checkbox" on:click={() => isItDarnica = !isItDarnica}>
+        <span class="slider round"></span>
+      </label>
+      Дарниця
+    </div>
     <div class="roll__button__wrapper">
       <Button text="тримай локацію" action={handleClick}/>
     </div>
@@ -263,16 +290,20 @@
   @import '../assets/styles/utils/mixins';
 
   .header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
     gap: 30px;
     padding: 20px 10px;
-    max-width: 1280px;
     width: 100%;
-    margin: 0 auto;
     border-bottom: 1px solid rgb(167, 151, 97);
+
+    &__wrapper {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+    }
   }
 
   .curr_person {
@@ -432,6 +463,75 @@
 
     &__notify {
       text-align: center;
+    }
+
+    &__button__switcher {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      max-width: 1280px;
+      width: 100%;
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      input:checked + .slider {
+        background-color: #2196F3;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+
+      .slider.round {
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
     }
   }
 
