@@ -2,15 +2,16 @@
 	"name": "randomizer-with-kitties",
 	"version": "0.0.1",
 	"private": true,
-  "homepage": "https://Kavon_skela.io/cats-with-randomizer",
+	"homepage": "https://Kavon_skela.io/cats-with-randomizer",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-    "deploy": "gh-pages -d build"
+		"deploy": "gh-pages -d build"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/adapter-static": "^2.0.3",
 		"@sveltejs/kit": "^1.20.4",
 		"svelte": "^4.0.5",
 		"vite": "^4.4.2"
