@@ -2,7 +2,6 @@
 	"name": "randomizer-with-kitties",
 	"version": "0.0.1",
 	"private": true,
-	"homepage": "https://Kavon_skela.io/cats-with-randomizer",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
