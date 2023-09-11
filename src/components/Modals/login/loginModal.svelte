@@ -27,12 +27,12 @@
   <div class="modal_buttons">
     <Button text="та шось нє" action={() => $isModalLoginOpened = !$isModalLoginOpened} />
       <Button text="тиць" action={() => {
-        if (password !== '1911') {
+        if (password !== '1611') {
           isPassError = true;
           return;
         }
 
-        if (password === '1911') {
+        if (password === '1611') {
           $isSuccessModalOpened = true;
           $isModalLoginOpened = false;
           $currentUser = {

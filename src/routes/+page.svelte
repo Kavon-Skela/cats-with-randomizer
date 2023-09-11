@@ -5,13 +5,13 @@
   import natali from '../assets/images/nataliia_tarasiuk.jpeg';
   import vlada from '../assets/images/vladyslava_balan_1693857349370.jpeg';
   import lyuba from '../assets/images/lyuba.jpg';
-  import valeriya from '../assets/images/valeriia.jpg';
+  import valeriya from '../assets/images/photo_2023-09-11_11-43-27.jpg';
   import katya from '../assets/images/katya.jpg';
   import sasha from '../assets/images/kavon_skela_1693859447776.jpeg';
   import ilya from '../assets/images/illia_tarasiuk_1693859547118.jpeg';
   import Button from '../components/Buttons/Button.svelte';
   import { isLoggedIn, isModalDesireOpened, isModalLoginOpened, currentUser, isSuccessModalOpened } from '../stores/stores';
-  import { afterUpdate, onMount } from 'svelte';
+  import { onMount } from 'svelte';
   import LoginDesireModal from '../components/Modals/loginDesire/loginDesireModal.svelte';
   import LoginModal from '../components/Modals/login/loginModal.svelte';
   import Success from '../components/Modals/success/success.svelte';
